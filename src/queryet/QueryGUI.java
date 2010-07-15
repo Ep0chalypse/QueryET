@@ -10,9 +10,13 @@
  */
 package queryet;
 
+import java.awt.Point;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import queryet.ServerObjects.MasterServerList;
 import queryet.ServerObjects.ServerInfo;
@@ -44,26 +48,22 @@ public class QueryGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
         jButton2 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jList3 = new javax.swing.JList();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jList4 = new javax.swing.JList();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jList5 = new javax.swing.JList();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        jList6 = new javax.swing.JList();
         jScrollPane7 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable(){
+
+            public boolean isCellEditable(int row, int column) {
+                return false; // change this to true to see the difference.
+            }
+        }
+        ;
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("QueryET");
@@ -75,15 +75,6 @@ public class QueryGUI extends javax.swing.JFrame {
             }
         });
 
-        jList1.setBorder(javax.swing.BorderFactory.createTitledBorder("Name"));
-        jList1.setModel(lm1);
-        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jList1MouseClicked(evt);
-            }
-        });
-        jScrollPane2.setViewportView(jList1);
-
         jButton2.setText("Connect");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -91,35 +82,24 @@ public class QueryGUI extends javax.swing.JFrame {
             }
         });
 
-        jList2.setBorder(javax.swing.BorderFactory.createTitledBorder("Address"));
-        jList2.setModel(lm2);
-        jList2.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTable1.setModel(propsTableModel);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jList2MouseClicked(evt);
+                jTable1MouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jList2);
-
-        jList3.setBorder(javax.swing.BorderFactory.createTitledBorder("Ping"));
-        jList3.setModel(lm3);
-        jScrollPane3.setViewportView(jList3);
-
-        jList4.setBorder(javax.swing.BorderFactory.createTitledBorder("Players"));
-        jList4.setModel(lm4);
-        jScrollPane4.setViewportView(jList4);
-
-        jList5.setBorder(javax.swing.BorderFactory.createTitledBorder("Map"));
-        jList5.setModel(lm5);
-        jScrollPane5.setViewportView(jList5);
-
-        jList6.setBorder(javax.swing.BorderFactory.createTitledBorder("Game Type"));
-        jList6.setModel(lm6);
-        jScrollPane6.setViewportView(jList6);
-
-        jTable1.setModel(propsTableModel);
         jScrollPane7.setViewportView(jTable1);
 
         jMenu1.setText("File");
+
+        jMenuItem2.setText("Quit");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
@@ -136,6 +116,15 @@ public class QueryGUI extends javax.swing.JFrame {
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("help");
+
+        jMenuItem3.setText("About");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem3);
+
         jMenuBar1.add(jMenu3);
 
         setJMenuBar(jMenuBar1);
@@ -145,48 +134,20 @@ public class QueryGUI extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, 0, 155, Short.MAX_VALUE)))
+                .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(67, 67, 67))
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(759, Short.MAX_VALUE))
+            .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 982, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(jButton2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(76, 76, 76))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE))
         );
 
         pack();
@@ -195,28 +156,30 @@ public class QueryGUI extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 //        String newline = "\n";
         ArrayList<MasterServerList> masters = QuertET.getListFromMaster();
+        int idx = 0;
         for (MasterServerList m : masters) {
 //            jTextArea1.append(m.getAddress() + ":" + m.getPort() + newline);
 //            lm.addElement(m.getAddress() + ":" + m.getPort());
-            ServerInfo s = QuertET.getServerInfo(m.getAddress(), m.getPort());
-            lm1.addElement(s.getName());
-            lm2.addElement(s.getAddress() + ":" + s.getPort());
-            lm3.addElement("not implemented");
-            lm4.addElement(s.getCurrentPlayers() + "/" + s.getMaxPlayers());
-            lm5.addElement(s.getMap());
-            lm6.addElement(s.getGameName());
+            if (idx < 100) {
 
+                ServerInfo s = QuertET.getServerInfo(m.getAddress(), m.getPort());
+                lm1.addElement(s.getName());
+                lm2.addElement(s.getAddress() + ":" + s.getPort());
+                lm3.addElement("not implemented");
+                lm4.addElement(s.getCurrentPlayers() + "/" + s.getMaxPlayers());
+                lm5.addElement(s.getMap());
+                lm6.addElement(s.getGameName());
 
-            String[] add = { s.getName(), s.getAddress() + ":" + s.getPort(), "not implemented",  s.getCurrentPlayers() + "/" + s.getMaxPlayers(), s.getMap(), "5"};
-            propsTableModel.addRow(add);
+                if (s.getPing() > 0) {
+                    String[] add = {s.getName(), s.getAddress() + ":" + s.getPort(), Long.toString(s.getPing()), s.getCurrentPlayers() + "/" + s.getMaxPlayers(), s.getMap(), "5"};
+                    propsTableModel.addRow(add);
+                    idx++;
+                }
+            }
 
 //            System.out.println(m.getAddress() + ":" + m.getPort());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
-        
-    }//GEN-LAST:event_jList1MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         //does nothing for now
@@ -227,16 +190,44 @@ public class QueryGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1MouseClicked
 
-    private void jList2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList2MouseClicked
-        JList list = (JList)evt.getSource();
-        if (evt.getClickCount() == 2) { // Double-click
-            // Get item index
-            int index = list.locationToIndex(evt.getPoint());
-            //launch et with server ip port here!!!!
-            System.out.println("Double clicked on: " + lm2.get(index));
-            LaunchET.startET("not used for now", (String)lm2.get(index));
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        if (evt.getActionCommand().equals("Quit")) {
+            System.exit(0);
         }
-    }//GEN-LAST:event_jList2MouseClicked
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+//        System.out.println("click count: " + evt.getClickCount());
+        JTable target = (JTable) evt.getSource();
+        int row = target.getSelectedRow();
+        int column = target.getSelectedColumn();
+
+        if (evt.getComponent().isEnabled() && evt.getButton() == MouseEvent.BUTTON1 && evt.getClickCount() == 2) {
+            Point p = evt.getPoint();
+//            int row = jTable1.rowAtPoint(p);
+//            int column = jTable1.columnAtPoint(p);
+              System.out.println("Launching ET...");
+              System.out.println("Connecting to server: " + (String)jTable1.getValueAt(row, column));
+              // NOT USED FOR NOW IS JUST A PLACE HOLDER FOR NOW. ACTUAL BINARY IS CARD CODED INTO startET()
+            LaunchET.startET("not used for now", (String)jTable1.getValueAt(row, column));
+//        }
+
+
+            // Use table.convertRowIndexToModel / table.convertColumnIndexToModle to convert to view indices
+
+            // ...
+        }
+
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // launch about window
+        if (evt.getActionCommand().equalsIgnoreCase("about")) {
+            JFrame newFrame = new JFrame();
+            newFrame.setTitle("Detail Screen");
+            newFrame.setVisible(true);
+        }
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -253,23 +244,13 @@ public class QueryGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JList jList1;
-    private javax.swing.JList jList2;
-    private javax.swing.JList jList3;
-    private javax.swing.JList jList4;
-    private javax.swing.JList jList5;
-    private javax.swing.JList jList6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
@@ -280,5 +261,4 @@ public class QueryGUI extends javax.swing.JFrame {
     private DefaultListModel lm5 = new DefaultListModel();
     private DefaultListModel lm6 = new DefaultListModel();
     private DefaultTableModel propsTableModel = new DefaultTableModel();
-
 }
