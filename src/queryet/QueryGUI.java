@@ -13,9 +13,13 @@ package queryet;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.JTable;
+import javax.swing.RowSorter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import queryet.ServerObjects.MasterServerList;
 import queryet.ServerObjects.ServerInfo;
 
@@ -28,12 +32,12 @@ public class QueryGUI extends javax.swing.JFrame {
     /** Creates new form QueryGUI */
     public QueryGUI() {
         initComponents();
-        propsTableModel.addColumn("Name");
-        propsTableModel.addColumn("Address");
-        propsTableModel.addColumn("Ping");
-        propsTableModel.addColumn("Players");
-        propsTableModel.addColumn("Map");
-        propsTableModel.addColumn("Game");
+//        propsTableModel.addColumn("Name");
+//        propsTableModel.addColumn("Address");
+//        propsTableModel.addColumn("Ping");
+//        propsTableModel.addColumn("Players");
+//        propsTableModel.addColumn("Map");
+//        propsTableModel.addColumn("Game");
     }
 
     /** This method is called from within the constructor to
@@ -81,6 +85,7 @@ public class QueryGUI extends javax.swing.JFrame {
             }
         });
 
+        jTable1.setAutoCreateRowSorter(true);
         jTable1.setModel(propsTableModel);
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -141,8 +146,8 @@ public class QueryGUI extends javax.swing.JFrame {
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(759, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addContainerGap(923, Short.MAX_VALUE))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGap(923, 923, 923))
             .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 982, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -152,34 +157,42 @@ public class QueryGUI extends javax.swing.JFrame {
                     .addComponent(jButton1)
                     .addComponent(jButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 515, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-//        String newline = "\n";
-        ArrayList<MasterServerList> masters = QueryET.getListFromMaster();
-        int idx = 0;
-        for (MasterServerList m : masters) {
-//            jTextArea1.append(m.getAddress() + ":" + m.getPort() + newline);
-//            lm.addElement(m.getAddress() + ":" + m.getPort());
-            if (idx < 20) {
 
-                ServerInfo s = QueryET.getServerInfo(m.getAddress(), m.getPort());
+        final ArrayList<MasterServerList> masters = QueryET.getListFromMaster();
 
-                if (s.getPing() > 0) {
-                    String[] add = {s.getName(), s.getAddress() + ":" + s.getPort(), Long.toString(s.getPing()), s.getCurrentPlayers() + "/" + s.getMaxPlayers(), s.getMap(), "5"};
-                    propsTableModel.addRow(add);
-                    idx++;
+        new Thread("UpdateButtonPushed") {
+
+            @Override
+            public void run() {
+
+                int idx = 0;
+                for (MasterServerList m : masters) {
+                    //for testing...limits to 20 servers
+//            if (idx < 20) {
+
+                    ServerInfo s = QueryET.getServerInfo(m.getAddress(), m.getPort());
+
+                    if (s.getPing() > 0) {
+                        // name addr:port ping players map mode
+                        Object[] add = {s.getName(), s.getAddress() + ":" + s.getPort(), s.getPing(), s.getCurrentPlayers() + "/" + s.getMaxPlayers(), s.getMap(), "5"};
+                        propsTableModel.addRow(add);
+                        idx++;
+                    }
+//            }
                 }
             }
+        }.start();
 
-//            System.out.println(m.getAddress() + ":" + m.getPort());
-        }
+
         jLabel1.setText(masters.size() + " servers");
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -208,11 +221,11 @@ public class QueryGUI extends javax.swing.JFrame {
             Point p = evt.getPoint();
 //            int row = jTable1.rowAtPoint(p);
 //            int column = jTable1.columnAtPoint(p);
-              System.out.println("Launching ET...");
-              System.out.println("Connecting to server: " + (String)jTable1.getValueAt(row, column));
-              // "not used for now" IS JUST A PLACE HOLDER FOR NOW. ACTUAL BINARY IS HARD CODED INTO startET()
-              System.out.println("row: " +row  + " column: " + column);
-            LaunchET.startET("/home/mike/et-sdl-sound", (String)jTable1.getValueAt(row, 1));
+            System.out.println("Launching ET...");
+            System.out.println("Connecting to server: " + (String) jTable1.getValueAt(row, column));
+            // "not used for now" IS JUST A PLACE HOLDER FOR NOW. ACTUAL BINARY IS HARD CODED INTO startET()
+            System.out.println("row: " + row + " column: " + column);
+            LaunchET.startET("/home/mike/et-sdl-sound", (String) jTable1.getValueAt(row, 1));
 //        }
 
 
@@ -264,5 +277,24 @@ public class QueryGUI extends javax.swing.JFrame {
 //    private DefaultListModel lm4 = new DefaultListModel();
 //    private DefaultListModel lm5 = new DefaultListModel();
 //    private DefaultListModel lm6 = new DefaultListModel();
-    private DefaultTableModel propsTableModel = new DefaultTableModel();
+//    private DefaultTableModel propsTableModel = new DefaultTableModel();
+    String[] columns = {"Name", "Address", "Ping", "Players", "Map", "Game"};
+    private CustomTableModel propsTableModel = new CustomTableModel(columns, 0);
+}
+
+class CustomTableModel extends DefaultTableModel {
+
+    public CustomTableModel(Object[] columns, int rows) {
+        super(columns, rows);
+    }
+
+    @Override
+    public Class getColumnClass(int c) {
+        return getValueAt(0, c).getClass();
+    }
+
+    @Override
+    public boolean isCellEditable(int row, int col) {
+        return false;
+    }
 }
