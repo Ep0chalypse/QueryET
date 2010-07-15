@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package queryet;
 
 import java.net.DatagramPacket;
@@ -16,9 +17,9 @@ import queryet.ServerObjects.ServerInfo;
  *
  * @author mike
  */
-public class QuertET {
+public class QueryET {
 
-    /**
+/**
      * @param args the command line arguments
      */
 //    public static void main(String[] args) {
@@ -102,7 +103,7 @@ public class QuertET {
 //            for (int j = 0; j < 2; j++) {
                 clientSocket.receive(receivePacket);
                 ping = System.currentTimeMillis() - ping;
-                String split = new String(receivePacket.getData(), "ISO-8859-1");             
+                String split = new String(receivePacket.getData(), "ISO-8859-1");
 //                System.out.println(new String(receivePacket.getData(), 0, receivePacket.getLength(), "ISO-8859-1"));
 
                 String name = StringUtils.substringBetween(split, "hostname\\", "\\");
@@ -112,10 +113,10 @@ public class QuertET {
                 String gameName = StringUtils.substringBetween(split, "game\\", "\\");
                 String gameType = StringUtils.substringBetween(split, "gametype\\", "\\");
                 String needPass = StringUtils.substringBetween(split, "needpass\\", "\\");
-                
-                
 
-                info.setName(name);
+
+
+                info.setName(removeColoring(name));
                 info.setAddress(addr);
                 info.setPort(port);
                 info.setMap(map);
@@ -152,6 +153,21 @@ public class QuertET {
         return info;
     }
 
+
+    public static String removeColoring(String string){
+
+        String[] color = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                           "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
+                            "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+                              "?", "+", "@", "-", "/"};
+
+        for(int i=0; i< color.length; i++){
+            if(string.contains("^" +color[i])){
+                string = string.replaceAll("\\^" + color[i], "");
+            }
+        }     
+        return string.replaceAll("\n", "").trim();
+    }
 
 
 }//end class
@@ -287,3 +303,4 @@ System.arraycopy(requestBytes, 0, buffer, 4, request.length());
 
 return new DatagramPacket(buffer, request.length() + 4, inet, port);
 }*/
+

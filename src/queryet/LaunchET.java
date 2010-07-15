@@ -19,7 +19,7 @@ public class LaunchET {
         BufferedReader reader;
         String lineRead = null;
         try {
-                badIdeaProc = Runtime.getRuntime().exec("/home/mike/et-sdl-sound" + " +connect " + server);
+                badIdeaProc = Runtime.getRuntime().exec(binary + " +connect " + server);
                 reader = new BufferedReader(new InputStreamReader(badIdeaProc.getInputStream()));
                 while ((lineRead = reader.readLine()) != null) {
 

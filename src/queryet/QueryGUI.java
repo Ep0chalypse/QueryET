@@ -13,9 +13,7 @@ package queryet;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import queryet.ServerObjects.MasterServerList;
@@ -57,6 +55,7 @@ public class QueryGUI extends javax.swing.JFrame {
             }
         }
         ;
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -89,6 +88,9 @@ public class QueryGUI extends javax.swing.JFrame {
             }
         });
         jScrollPane7.setViewportView(jTable1);
+
+        jLabel1.setText("0 servers");
+        jLabel1.setBorder(null);
 
         jMenu1.setText("File");
 
@@ -138,6 +140,9 @@ public class QueryGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(759, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addContainerGap(923, Short.MAX_VALUE))
             .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 982, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -147,7 +152,9 @@ public class QueryGUI extends javax.swing.JFrame {
                     .addComponent(jButton1)
                     .addComponent(jButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE))
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE))
         );
 
         pack();
@@ -155,20 +162,14 @@ public class QueryGUI extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 //        String newline = "\n";
-        ArrayList<MasterServerList> masters = QuertET.getListFromMaster();
+        ArrayList<MasterServerList> masters = QueryET.getListFromMaster();
         int idx = 0;
         for (MasterServerList m : masters) {
 //            jTextArea1.append(m.getAddress() + ":" + m.getPort() + newline);
 //            lm.addElement(m.getAddress() + ":" + m.getPort());
-            if (idx < 100) {
+            if (idx < 20) {
 
-                ServerInfo s = QuertET.getServerInfo(m.getAddress(), m.getPort());
-                lm1.addElement(s.getName());
-                lm2.addElement(s.getAddress() + ":" + s.getPort());
-                lm3.addElement("not implemented");
-                lm4.addElement(s.getCurrentPlayers() + "/" + s.getMaxPlayers());
-                lm5.addElement(s.getMap());
-                lm6.addElement(s.getGameName());
+                ServerInfo s = QueryET.getServerInfo(m.getAddress(), m.getPort());
 
                 if (s.getPing() > 0) {
                     String[] add = {s.getName(), s.getAddress() + ":" + s.getPort(), Long.toString(s.getPing()), s.getCurrentPlayers() + "/" + s.getMaxPlayers(), s.getMap(), "5"};
@@ -179,6 +180,7 @@ public class QueryGUI extends javax.swing.JFrame {
 
 //            System.out.println(m.getAddress() + ":" + m.getPort());
         }
+        jLabel1.setText(masters.size() + " servers");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -208,8 +210,9 @@ public class QueryGUI extends javax.swing.JFrame {
 //            int column = jTable1.columnAtPoint(p);
               System.out.println("Launching ET...");
               System.out.println("Connecting to server: " + (String)jTable1.getValueAt(row, column));
-              // NOT USED FOR NOW IS JUST A PLACE HOLDER FOR NOW. ACTUAL BINARY IS CARD CODED INTO startET()
-            LaunchET.startET("not used for now", (String)jTable1.getValueAt(row, column));
+              // "not used for now" IS JUST A PLACE HOLDER FOR NOW. ACTUAL BINARY IS HARD CODED INTO startET()
+              System.out.println("row: " +row  + " column: " + column);
+            LaunchET.startET("/home/mike/et-sdl-sound", (String)jTable1.getValueAt(row, 1));
 //        }
 
 
@@ -244,6 +247,7 @@ public class QueryGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -254,11 +258,11 @@ public class QueryGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
-    private DefaultListModel lm1 = new DefaultListModel();
-    private DefaultListModel lm2 = new DefaultListModel();
-    private DefaultListModel lm3 = new DefaultListModel();
-    private DefaultListModel lm4 = new DefaultListModel();
-    private DefaultListModel lm5 = new DefaultListModel();
-    private DefaultListModel lm6 = new DefaultListModel();
+//    private DefaultListModel lm1 = new DefaultListModel();
+//    private DefaultListModel lm2 = new DefaultListModel();
+//    private DefaultListModel lm3 = new DefaultListModel();
+//    private DefaultListModel lm4 = new DefaultListModel();
+//    private DefaultListModel lm5 = new DefaultListModel();
+//    private DefaultListModel lm6 = new DefaultListModel();
     private DefaultTableModel propsTableModel = new DefaultTableModel();
 }
