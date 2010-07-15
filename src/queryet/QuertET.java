@@ -8,7 +8,9 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
-import queryet.MasterServerObject.MasterServerList;
+import org.apache.commons.lang.StringUtils;
+import queryet.ServerObjects.MasterServerList;
+import queryet.ServerObjects.ServerInfo;
 
 /**
  *
@@ -19,7 +21,6 @@ public class QuertET {
     /**
      * @param args the command line arguments
      */
-
 //    public static void main(String[] args) {
 //        ArrayList<MasterServerList> masters = getListFromMaster();
 //        for (MasterServerList m : masters) {
@@ -27,7 +28,6 @@ public class QuertET {
 //        }
 //        System.out.println("Servers: " + masters.size());
 //    }
-
     public static ArrayList<MasterServerList> getListFromMaster() {
         ArrayList<MasterServerList> finalList = new ArrayList<MasterServerList>();
         try {
@@ -73,7 +73,88 @@ public class QuertET {
         }
         return finalList;
     }
-}
+
+    public static ServerInfo getServerInfo(String addr, int port) {
+        ServerInfo info = new ServerInfo();
+        try {
+            DatagramSocket clientSocket = new DatagramSocket();
+            clientSocket.setSoTimeout(2000);
+            InetAddress IPAddress = InetAddress.getByName(addr);
+            byte[] receiveData = new byte[1024];
+            byte[] message = "XXXXgetinfo".getBytes();
+            long ping = 0;
+
+            for (byte index = 0; index < 4; index++) {
+                message[index] = (byte) 0xFF;
+            }
+
+            //creates packet to send
+            DatagramPacket sendPacket = new DatagramPacket(message, message.length, IPAddress, port);
+            //sends packet
+            ping = System.currentTimeMillis();
+            clientSocket.send(sendPacket);
+
+
+            DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+
+//            while(clientSocket.receive(sendPacket))
+
+//            for (int j = 0; j < 2; j++) {
+                clientSocket.receive(receivePacket);
+                ping = System.currentTimeMillis() - ping;
+                String split = new String(receivePacket.getData(), "ISO-8859-1");             
+//                System.out.println(new String(receivePacket.getData(), 0, receivePacket.getLength(), "ISO-8859-1"));
+
+                String name = StringUtils.substringBetween(split, "hostname\\", "\\");
+                String map = StringUtils.substringBetween(split, "mapname\\", "\\");
+                String currentPlayers = StringUtils.substringBetween(split, "clients\\", "\\");
+                String maxPlayers = StringUtils.substringBetween(split, "sv_maxclients\\", "\\");
+                String gameName = StringUtils.substringBetween(split, "game\\", "\\");
+                String gameType = StringUtils.substringBetween(split, "gametype\\", "\\");
+                String needPass = StringUtils.substringBetween(split, "needpass\\", "\\");
+                
+                
+
+                info.setName(name);
+                info.setAddress(addr);
+                info.setPort(port);
+                info.setMap(map);
+                info.setCurrentPlayers(Integer.parseInt(currentPlayers));
+                info.setMaxPlayers(Integer.parseInt(maxPlayers));
+                info.setGameName(gameName);
+                info.setGameType(Integer.parseInt(gameType));
+                info.setPing(ping);
+                if(StringUtils.substringBetween(split, "needpass\\", "\\").equals("0")){
+                    info.setPrivateServer(false);
+                } else{
+                    info.setPrivateServer(true);
+                }
+
+//                String map = StringUtils.substringBetween(split, "mapnam\\", "\\");
+//                String map = StringUtils.substringBetween(split, "mapnam\\", "\\");
+//                String map = StringUtils.substringBetween(split, "mapnam\\", "\\");
+//                String map = StringUtils.substringBetween(split, "mapnam\\", "\\");
+                System.out.println("#####");
+                System.out.println("name: " + name);
+                System.out.println("map: " + map);
+                System.out.println("currentPlayers: " + currentPlayers);
+                System.out.println("maxPlayers: " + maxPlayers);
+                System.out.println("gameType: " + gameType);
+                System.out.println("needpass: " + needPass);
+
+//            }
+
+            clientSocket.close();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return info;
+    }
+
+
+
+}//end class
 //////////////////////////////////////////////////////////////////////////////////////////////////
 /*public static byte[] getListFromMaster() throws SocketException, UnknownHostException, IOException {
 DatagramSocket clientSocket = new DatagramSocket();
