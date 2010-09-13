@@ -183,7 +183,7 @@ public class QueryGUI extends javax.swing.JFrame {
 
                     if (s.getPing() > 0) {
                         // name addr:port ping players map mode
-                        Object[] add = {s.getName(), s.getAddress() + ":" + s.getPort(), s.getPing(), s.getCurrentPlayers() + "/" + s.getMaxPlayers(), s.getMap(), "5"};
+                        Object[] add = {s.getName(), s.getAddress() + ":" + s.getPort(), s.getPing(), s.getCurrentPlayers(),  s.getMaxPlayers(), s.getMap(), "5"};
                         propsTableModel.addRow(add);
                         idx++;
                     }
@@ -278,7 +278,7 @@ public class QueryGUI extends javax.swing.JFrame {
 //    private DefaultListModel lm5 = new DefaultListModel();
 //    private DefaultListModel lm6 = new DefaultListModel();
 //    private DefaultTableModel propsTableModel = new DefaultTableModel();
-    String[] columns = {"Name", "Address", "Ping", "Players", "Map", "Game"};
+    String[] columns = {"Name", "Address", "Ping", "Current Players", "Max Players ", "Map", "Game"};
     private CustomTableModel propsTableModel = new CustomTableModel(columns, 0);
 }
 
