@@ -15,10 +15,14 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Vector;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.RowSorter;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -96,7 +100,7 @@ public class QueryGUI extends javax.swing.JFrame {
         });
         jScrollPane7.setViewportView(jTable1);
 
-        jLabel1.setText("0 servers");
+        jLabel1.setText("0/0");
         jLabel1.setBorder(null);
 
         jMenu1.setText("File");
@@ -248,12 +252,20 @@ public class QueryGUI extends javax.swing.JFrame {
         // launch about window
         if (evt.getActionCommand().equalsIgnoreCase("about")) {
             JFrame someFrame = new JFrame();
-            JLabel label = new JLabel("<html>Enemy territory game browser<br>Written by Wicked@irc.gefickt.us #Linux</html>");
+            someFrame.setTitle("About");
+            Icon etIcon = new ImageIcon("res/et-icon.png");
+//            ImageIcon icon = createImageIcon("res/et-icon.png");
+            
+            JLabel label1 = new JLabel(etIcon);
+            label1.setText("<html>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enemy territory game browser<br>Written by Wicked@irc.gefickt.us #Linux</html>");
+            label1.setHorizontalTextPosition(JLabel.CENTER);
+            label1.setVerticalTextPosition(JLabel.TOP);
+            
 //            label.setFont(new Font("Serif", Font.PLAIN, 36));
 
 //            frame.getContentPane().add(jlabel);
-            someFrame.add(label);
-            someFrame.setSize(230, 230);
+            someFrame.add(label1);
+            someFrame.setSize(300, 300);
             someFrame.setVisible(true);        
          
             /*JFrame newFrame = new JFrame();
