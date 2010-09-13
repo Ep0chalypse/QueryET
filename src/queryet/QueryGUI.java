@@ -10,11 +10,13 @@
  */
 package queryet;
 
+import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.RowSorter;
 import javax.swing.table.DefaultTableModel;
@@ -66,7 +68,7 @@ public class QueryGUI extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenu3Item1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("QueryET");
@@ -122,15 +124,16 @@ public class QueryGUI extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
-        jMenu3.setText("help");
+        jMenu3.setText("Help");
 
-        jMenuItem3.setText("About");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        jMenu3Item1.setText("About");
+        jMenu3Item1.setToolTipText("about this program");
+        jMenu3Item1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem3);
+        jMenu3.add(jMenu3Item1);
 
         jMenuBar1.add(jMenu3);
 
@@ -168,7 +171,6 @@ public class QueryGUI extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         final ArrayList<MasterServerList> masters = QueryET.getListFromMaster();
-        int currentServerNumber = 0;
 
         new Thread("UpdateButtonPushed") {
 
@@ -245,9 +247,18 @@ public class QueryGUI extends javax.swing.JFrame {
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // launch about window
         if (evt.getActionCommand().equalsIgnoreCase("about")) {
-            JFrame newFrame = new JFrame();
+            JFrame someFrame = new JFrame();
+            JLabel label = new JLabel("<html>Enemy territory game browser<br>Written by Wicked@irc.gefickt.us #Linux</html>");
+//            label.setFont(new Font("Serif", Font.PLAIN, 36));
+
+//            frame.getContentPane().add(jlabel);
+            someFrame.add(label);
+            someFrame.setSize(230, 230);
+            someFrame.setVisible(true);        
+         
+            /*JFrame newFrame = new JFrame();
             newFrame.setTitle("Detail Screen");
-            newFrame.setVisible(true);
+            newFrame.setVisible(true);*/
         }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
@@ -273,7 +284,7 @@ public class QueryGUI extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenu3Item1;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
