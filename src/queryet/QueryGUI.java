@@ -168,6 +168,7 @@ public class QueryGUI extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         final ArrayList<MasterServerList> masters = QueryET.getListFromMaster();
+        int currentServerNumber = 0;
 
         new Thread("UpdateButtonPushed") {
 
@@ -183,9 +184,10 @@ public class QueryGUI extends javax.swing.JFrame {
 
                     if (s.getPing() > 0) {
                         // name addr:port ping players map mode
-                        Object[] add = {s.getName(), s.getAddress() + ":" + s.getPort(), s.getPing(), s.getCurrentPlayers(),  s.getMaxPlayers(), s.getMap(), "5"};
+                        Object[] add = {s.getName(), s.getAddress() + ":" + s.getPort(), s.getPing(), s.getCurrentPlayers(),  s.getMaxPlayers(), s.getMap(), s.getGameType()};
                         propsTableModel.addRow(add);
                         idx++;
+                        setServerCountLabel(idx, masters.size());
                     }
 //            }
                 }
@@ -193,8 +195,12 @@ public class QueryGUI extends javax.swing.JFrame {
         }.start();
 
 
-        jLabel1.setText(masters.size() + " servers");
     }//GEN-LAST:event_jButton1ActionPerformed
+    
+    //help method to set current/max players in jlabel
+    public void setServerCountLabel(int current, int max){
+	jLabel1.setText(current +  "/" + max);
+    }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         //does nothing for now
