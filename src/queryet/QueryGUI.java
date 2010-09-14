@@ -18,14 +18,20 @@ import java.util.Vector;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.RowSorter;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+
+import com.sun.java.swing.plaf.motif.MotifBorders.BevelBorder;
+
 import queryet.ServerObjects.MasterServerList;
 import queryet.ServerObjects.ServerInfo;
 
@@ -57,6 +63,7 @@ public class QueryGUI extends javax.swing.JFrame {
 
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+
         jScrollPane7 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable(){
 
@@ -251,8 +258,34 @@ public class QueryGUI extends javax.swing.JFrame {
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // launch about window
         if (evt.getActionCommand().equalsIgnoreCase("about")) {
-            JFrame someFrame = new JFrame();
+            
+            Icon etIcon = new ImageIcon("res/et-icon.png");
+            JLabel label = new JLabel(etIcon);
+            label.setText("<html>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enemy territory game browser<br>Written by Wicked@irc.gefickt.us #Linux</html>");
+            label.setHorizontalTextPosition(JLabel.CENTER);
+            label.setVerticalTextPosition(JLabel.TOP);
+            JOptionPane.showMessageDialog(this, label, "About", JOptionPane.PLAIN_MESSAGE);
+            
+//            ImageBackgroundJOptionPane test = new ImageBackgroundJOptionPane(null);
+//            test.showMessageDialog(this, "Eggs are not supposed to be green.");
+            
+//            JOptionPane.showMessageDialog(this, "Eggs are not supposed to be green.");
+
+            
+
+            
+            /*JDialog d = new JDialog(this, "About", true);
+            JTextField new_text = new JTextField();
+            
+            Icon etIcon = new ImageIcon("res/et-icon.png");
+            d.setLocationRelativeTo(this);
+            d.setVisible(true);*/
+
+            
+            
+            /*JFrame someFrame = new JFrame();
             someFrame.setTitle("About");
+            someFrame.setLocationRelativeTo(rootPane);
             Icon etIcon = new ImageIcon("res/et-icon.png");
 //            ImageIcon icon = createImageIcon("res/et-icon.png");
             
@@ -266,7 +299,7 @@ public class QueryGUI extends javax.swing.JFrame {
 //            frame.getContentPane().add(jlabel);
             someFrame.add(label1);
             someFrame.setSize(300, 300);
-            someFrame.setVisible(true);        
+            someFrame.setVisible(true);*/        
          
             /*JFrame newFrame = new JFrame();
             newFrame.setTitle("Detail Screen");
