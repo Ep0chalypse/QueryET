@@ -19,8 +19,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 import queryet.ServerObjects.MasterServerList;
 import queryet.ServerObjects.ServerInfo;
@@ -54,6 +57,7 @@ public class QueryGUI extends javax.swing.JFrame {
 
 	jButton1 = new javax.swing.JButton();
 	jButton2 = new javax.swing.JButton();
+	
 
 	jScrollPane7 = new javax.swing.JScrollPane();
 	jTable1 = new javax.swing.JTable() {
@@ -62,6 +66,7 @@ public class QueryGUI extends javax.swing.JFrame {
 		return false; // change this to true to see the difference.
 	    }
 	};
+	jTable1.setDefaultRenderer(Object.class, LeftTableCellRenderer);
 	jLabel1 = new javax.swing.JLabel();
 	jMenuBar1 = new javax.swing.JMenuBar();
 	jMenu1 = new javax.swing.JMenu();
@@ -335,8 +340,21 @@ public class QueryGUI extends javax.swing.JFrame {
     // private DefaultListModel lm5 = new DefaultListModel();
     // private DefaultListModel lm6 = new DefaultListModel();
     // private DefaultTableModel propsTableModel = new DefaultTableModel();
+    private TableCellRenderer LeftTableCellRenderer = new LeftRenderer();
     String[] columns = { "Name", "Address", "Ping", "Current Players", "Max Players ", "Map", "Game" };
     private CustomTableModel propsTableModel = new CustomTableModel(columns, 0);
+    
+    public class LeftRenderer extends DefaultTableCellRenderer {
+	 
+        static final long serialVersionUID = 0;
+ 
+        @Override
+        public void setValue(Object value) {
+            setText(value.toString());
+            setHorizontalAlignment(SwingConstants.LEFT);
+        }
+    }
+    
 }
 
 class CustomTableModel extends DefaultTableModel {
@@ -355,3 +373,5 @@ class CustomTableModel extends DefaultTableModel {
 	return false;
     }
 }
+
+
