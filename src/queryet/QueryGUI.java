@@ -10,12 +10,16 @@
  */
 package queryet;
 
+import java.awt.FlowLayout;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -57,7 +61,6 @@ public class QueryGUI extends javax.swing.JFrame {
 
 	jButton1 = new javax.swing.JButton();
 	jButton2 = new javax.swing.JButton();
-	
 
 	jScrollPane7 = new javax.swing.JScrollPane();
 	jTable1 = new javax.swing.JTable() {
@@ -67,6 +70,7 @@ public class QueryGUI extends javax.swing.JFrame {
 	    }
 	};
 	jTable1.setDefaultRenderer(Object.class, LeftTableCellRenderer);
+
 	jLabel1 = new javax.swing.JLabel();
 	jMenuBar1 = new javax.swing.JMenuBar();
 	jMenu1 = new javax.swing.JMenu();
@@ -223,7 +227,7 @@ public class QueryGUI extends javax.swing.JFrame {
 	    // "not used for now" IS JUST A PLACE HOLDER FOR NOW. ACTUAL BINARY
 	    // IS HARD CODED INTO startET()
 	    System.out.println("row: " + row + " column: " + column);
-	    LaunchET.startET("/home/mike/et-sdl-sound", (String) jTable1.getValueAt(row, 1));
+	    LaunchET.startET(etBinary, (String) jTable1.getValueAt(row, 1));
 	    // }
 
 	    // Use table.convertRowIndexToModel /
@@ -288,16 +292,43 @@ public class QueryGUI extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {
 	// launch about window
 	if (evt.getActionCommand().equalsIgnoreCase("preferences")) {
-	    Icon etIcon = new ImageIcon("res/et-icon.png");
+	    JFrame frame = new JFrame("Preferences");
+//	    JLabel label = new JLabel();
+	    frame.setLocationRelativeTo(rootPane);
+	     FileSelectorDialog panel = new FileSelectorDialog();
+//	     label.setText("Selected file: " );
+	     frame.addWindowListener(
+	       new WindowAdapter() {
+	         public void windowClosing(WindowEvent e) {
+	          // System.exit(0);
+	           }
+	         }
+	       );
+	     frame.getContentPane().add(panel);
+//	     frame.getContentPane().add(label);
+	     frame.setSize(panel.getPreferredSize());
+	     frame.setVisible(true);
+	    
+	    
+	    /*Icon etIcon = new ImageIcon("res/et-icon.png");
 	    JLabel label = new JLabel(etIcon);
 	    label.setText("<html>Simple Placeholder until i write code for here</html>");
 	    label.setHorizontalTextPosition(JLabel.CENTER);
 	    label.setVerticalTextPosition(JLabel.TOP);
-	    JOptionPane.showMessageDialog(this, label, "Preferences", JOptionPane.PLAIN_MESSAGE);
+	    JOptionPane.showMessageDialog(this, label, "Preferences", JOptionPane.PLAIN_MESSAGE);*/
 
 	}
     }
 
+    //used to force contents of cell to align to the left
+    public class LeftRenderer extends DefaultTableCellRenderer {
+	@Override
+	public void setValue(Object value) {
+	    setText(value.toString());
+	    setHorizontalAlignment(SwingConstants.LEFT);
+	}
+    }
+    
     /**
      * @param args
      *            the command line arguments
@@ -309,8 +340,8 @@ public class QueryGUI extends javax.swing.JFrame {
 
 	} catch (Exception e) {
 	    System.out.println(e);
-
 	}
+	
 	java.awt.EventQueue.invokeLater(new Runnable() {
 
 	    public void run() {
@@ -318,6 +349,15 @@ public class QueryGUI extends javax.swing.JFrame {
 	    }
 	});
     }
+    
+    public static void setEtBinary(String binary){
+	etBinary = binary;
+    }
+    
+    public static String getEtBinary(){
+	return etBinary;
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -343,19 +383,10 @@ public class QueryGUI extends javax.swing.JFrame {
     private TableCellRenderer LeftTableCellRenderer = new LeftRenderer();
     String[] columns = { "Name", "Address", "Ping", "Current Players", "Max Players ", "Map", "Game" };
     private CustomTableModel propsTableModel = new CustomTableModel(columns, 0);
-    
-    public class LeftRenderer extends DefaultTableCellRenderer {
-	 
-        static final long serialVersionUID = 0;
- 
-        @Override
-        public void setValue(Object value) {
-            setText(value.toString());
-            setHorizontalAlignment(SwingConstants.LEFT);
-        }
-    }
-    
-}
+    private static String etBinary = "Please set me!";
+   
+
+}//end of everything
 
 class CustomTableModel extends DefaultTableModel {
 
@@ -373,5 +404,3 @@ class CustomTableModel extends DefaultTableModel {
 	return false;
     }
 }
-
-
